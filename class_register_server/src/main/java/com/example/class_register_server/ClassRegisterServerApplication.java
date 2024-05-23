@@ -1,4 +1,4 @@
-package com.server_app.class_register_server;
+package com.example.class_register_server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
