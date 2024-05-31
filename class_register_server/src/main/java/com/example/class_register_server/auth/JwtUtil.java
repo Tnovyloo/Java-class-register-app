@@ -24,6 +24,7 @@ public class JwtUtil {
     private final String TOKEN_PREFIX = "Bearer ";
 
     public JwtUtil(){
+        System.out.println("JwtUtil bean created.");
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);
     }
 
