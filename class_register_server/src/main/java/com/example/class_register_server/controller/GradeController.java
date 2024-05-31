@@ -20,7 +20,7 @@ public class GradeController {
     @Autowired
     private GradeService gradeService;
 
-    // Get all grades (For supervisor)
+    // Get all grades
     @GetMapping
     public List<Grade> getAllGrades() {
         return gradeService.getAllGrades();
