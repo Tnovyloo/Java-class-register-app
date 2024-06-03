@@ -1,16 +1,33 @@
 package com.example.class_register_server.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private String index;
+    private String studentIndex;
     private Boolean isTeacher;
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public User(String email, String password, Boolean isTeacher) {
+        this.email = email;
+        this.password = password;
+        this.isTeacher = isTeacher;
     }
 
     public void setEmail(String email) {
@@ -45,12 +62,12 @@ public class User {
         return lastName;
     }
 
-    public void setIndex(String index) {
-        this.index = index;
+    public void setStudentIndex(String studentIndex) {
+        this.studentIndex = studentIndex;
     }
 
-    public String getIndex() {
-        return index;
+    public String getStudentIndex() {
+        return studentIndex;
     }
 
     public Boolean getIsTeacher() {
