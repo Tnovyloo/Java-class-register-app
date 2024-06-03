@@ -43,9 +43,14 @@ public class GradeController {
         System.out.println(email);
 
         User authenticatedUser = userService.findByEmail(email);
-        System.out.println(authenticatedUser);
+        System.out.println("Authenticated user: " + authenticatedUser.getEmail());
+        if (authenticatedUser.getIsTeacher()) {
+            return gradeService.getAllGrades();
+        } else {
+            return gradeService.getAllGradesByStudentIndex(authenticatedUser.getStudentIndex());
+        }
 
-        return gradeService.getAllGrades();
+        // return gradeService.getAllGrades();
     }
 
     // Get grade by Id

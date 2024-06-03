@@ -12,12 +12,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    // TODO make this email primary.
     private String email;
     private String password;
     private String firstName;
     private String lastName;
     private String studentIndex;
     private Boolean isTeacher;
+
+    public User() {}
 
     public User(String email, String password) {
         this.email = email;
@@ -28,6 +31,13 @@ public class User {
         this.email = email;
         this.password = password;
         this.isTeacher = isTeacher;
+    }
+
+    public User(String email, String password, Boolean isTeacher, String studentIndex) {
+        this.email = email;
+        this.password = password;
+        this.isTeacher = isTeacher;
+        this.studentIndex = studentIndex;
     }
 
     public void setEmail(String email) {
