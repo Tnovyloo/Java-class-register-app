@@ -2,6 +2,8 @@ package com.example.class_register_server.controller;
 
 import com.example.class_register_server.auth.JwtUtil;
 import com.example.class_register_server.model.Grade;
+import com.example.class_register_server.model.User;
+import com.example.class_register_server.service.CustomUserDetailsService;
 import com.example.class_register_server.service.GradeService;
 
 import io.jsonwebtoken.Claims;
@@ -24,20 +26,24 @@ public class GradeController {
     // Use service to make all queries.
     @Autowired
     private GradeService gradeService;
+    @Autowired
+    private CustomUserDetailsService userService;
+
+    @Autowired
     private JwtUtil jwtUtil;
+
 
     // Get all grades
     @GetMapping
     public List<Grade> getAllGrades(HttpServletRequest request) {
         // TODO get User email
         System.out.println(request.getHeader("Authorization"));
-        Claims claims = jwtUtil.resolveClaims(request);
+        
+        String  email = jwtUtil.getEmail(jwtUtil.resolveClaims(request));
+        System.out.println(email);
 
-        // if (claims != null) {
-        //     String email = jwtUtil.getEmail(claims);
-        //     String firstName = (String) claims.get("firstName");
-        //     System.out.println("AAAAAA" + email);
-        // }
+        User authenticatedUser = userService.findByEmail(email);
+        System.out.println(authenticatedUser);
 
         return gradeService.getAllGrades();
     }
