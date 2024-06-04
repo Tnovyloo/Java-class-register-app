@@ -55,23 +55,14 @@ public class TeacherController {
             // Send info to user and change FXML.
             this.loginStatusLabel.setText("Logowanie powiodło się");
             showAlert(AlertType.CONFIRMATION ,"Logowanie powiodło się", "Logowanie powiodło się, zostałeś zalogowany jako: " + emailValue);
-            // App.setRoot("teacherPanel");
             
-            // FXMLLoader loader = new FXMLLoader(getClass().getResource("teacherPanel.fxml"));
-            // Parent root = loader.load();
-            // Scene scene = new Scene(root);
-
-            // TeacherPanelController teacherPanelController = loader.getController();
-            // teacherPanelController.setClient(this.client);
-
-            // Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            // stage.setScene(scene);
-            // stage.show();
-            
+            // All this magic below is only for fetching grades from API before scene builds. We are manually assign Controller to this FXML (It is not connected in this teacherPanel.fxml file)
+            // We have to load teacherPanel.fxml and pass the client to the Controller constructor
             FXMLLoader loader = new FXMLLoader(getClass().getResource("teacherPanel.fxml"));
             // Pass the client to the controller's constructor
             TeacherPanelController teacherPanelController = new TeacherPanelController(this.client);
-            loader.setController(teacherPanelController); // Set the controller
+            // Setting up the controller to the loader
+            loader.setController(teacherPanelController); 
             Parent root = loader.load();
             Scene scene = new Scene(root);
 

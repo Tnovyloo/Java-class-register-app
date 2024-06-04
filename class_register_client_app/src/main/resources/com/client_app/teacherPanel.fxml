@@ -11,7 +11,6 @@
 <?import javafx.scene.control.TableColumn?>
 
 
-<!-- <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.client_app.TeacherPanelController"> -->
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label alignment="CENTER" prefHeight="23.0" prefWidth="523.0" text="Zalogowano jako Nauczyciel">
@@ -20,13 +19,12 @@
          </font>
         </Label>
 
-        <TableView fx:id="gradesTable">
+        <TableView fx:id="gradesTable" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="600.0">
             <columns>
-                <TableColumn text="Indeks" fx:id="studentIndexColumn"/>
-                <TableColumn text="Student Name" fx:id="studentNameColumn"/>
-                <TableColumn text="Przedmiot" fx:id="subjectColumn"/>
-                <TableColumn text="Ocena" fx:id="gradeColumn"/>
-                <!-- Add more columns as needed -->
+                <TableColumn fx:id="studentIndexColumn" text="Indeks" />
+                <TableColumn fx:id="studentNameColumn" text="Student Name" />
+                <TableColumn fx:id="subjectColumn" text="Przedmiot" />
+                <TableColumn fx:id="gradeColumn" text="Ocena" />
             </columns>
         </TableView>
 
