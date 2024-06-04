@@ -26,9 +26,10 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api/grades")
 public class GradeController {
 
-    // Use service to make all queries.
+    // Use Grade service to make all queries that are handled by Repository.
     @Autowired
     private GradeService gradeService;
+
     @Autowired
     private CustomUserDetailsService userService;
 
@@ -90,27 +91,37 @@ public class GradeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Grade> updateGrade(@PathVariable Long id, @RequestBody Grade gradeDetails) {
-        Optional<Grade> grade = gradeService.getGradeById(id);
-        if (grade.isPresent()) {
-            Grade updatedGrade = grade.get();
-            updatedGrade.setStudentName(gradeDetails.getStudentName());
-            updatedGrade.setSubject(gradeDetails.getSubject());
-            updatedGrade.setGrade(gradeDetails.getGrade());
-            gradeService.saveGrade(updatedGrade);
-            return ResponseEntity.ok(updatedGrade);
+    public ResponseEntity<Grade> updateGrade(@PathVariable Long id, @RequestBody Grade gradeDetails, HttpServletRequest request) {
+        User authenticatedUser = jwtUtil.getCurrentUser(request);
+        if (authenticatedUser.getIsTeacher()) {
+            Optional<Grade> grade = gradeService.getGradeById(id);
+            if (grade.isPresent()) {
+                Grade updatedGrade = grade.get();
+                updatedGrade.setStudentName(gradeDetails.getStudentName());
+                updatedGrade.setSubject(gradeDetails.getSubject());
+                updatedGrade.setGrade(gradeDetails.getGrade());
+                gradeService.saveGrade(updatedGrade);
+                return ResponseEntity.ok(updatedGrade);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGrade(@PathVariable Long id) {
-        if (gradeService.getGradeById(id).isPresent()) {
-            gradeService.deleteGrade(id);
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteGrade(@PathVariable Long id, HttpServletRequest request) {
+        User authenticatedUser = jwtUtil.getCurrentUser(request);
+        if (authenticatedUser.getIsTeacher()) {
+            if (gradeService.getGradeById(id).isPresent()) {
+                gradeService.deleteGrade(id);
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
     }
 }
