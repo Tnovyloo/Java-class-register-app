@@ -35,8 +35,6 @@ public class UserRepository {
         query.setParameter("email", email);
         
         try {
-            System.out.println("XXD");
-
             return (User) query.getSingleResult();
         } catch (Exception e) {
             System.out.println(e);

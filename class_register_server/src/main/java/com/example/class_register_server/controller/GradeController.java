@@ -9,9 +9,12 @@ import com.example.class_register_server.service.GradeService;
 import io.jsonwebtoken.Claims;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,48 +36,57 @@ public class GradeController {
     private JwtUtil jwtUtil;
 
 
-    // Get all grades
+    // If user is student, then could only read his grades. Except user is teacher, then he sees all grades in DB
     @GetMapping
     public List<Grade> getAllGrades(HttpServletRequest request) {
-        // TODO get User email
-        System.out.println(request.getHeader("Authorization"));
-        
-        String  email = jwtUtil.getEmail(jwtUtil.resolveClaims(request));
-        System.out.println(email);
+        User authenticatedUser = jwtUtil.getCurrentUser(request);
 
-        User authenticatedUser = userService.findByEmail(email);
-        System.out.println("Authenticated user: " + authenticatedUser.getEmail());
         if (authenticatedUser.getIsTeacher()) {
             return gradeService.getAllGrades();
         } else {
             return gradeService.getAllGradesByStudentIndex(authenticatedUser.getStudentIndex());
         }
 
-        // return gradeService.getAllGrades();
     }
 
-    // Get grade by Id
+    // Get grade by Id if user is teacher
     @GetMapping("/{id}")
-    public ResponseEntity<Grade> getGradeById(@PathVariable Long id) {
-        Optional<Grade> grade = gradeService.getGradeById(id);
-        if (grade.isPresent()) {
-            return ResponseEntity.ok(grade.get());
+    public ResponseEntity<Grade> getGradeById(@PathVariable Long id, HttpServletRequest request) {
+        User authenticatedUser = jwtUtil.getCurrentUser(request);
+
+        if (authenticatedUser.getIsTeacher()) {
+            Optional<Grade> grade = gradeService.getGradeById(id);
+            if (grade.isPresent()) {
+                return ResponseEntity.ok(grade.get());
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    // Get all grades that are studentName
+    // Get all grades that contains studentIndex, only for Teacher.
     @GetMapping("/student/search")
-    public List<Grade> getGradesByStudentIndex(@RequestParam String studentIndex) {
-        return gradeService.getAllGradesByStudentIndex(studentIndex);
+    public List<Grade> getGradesByStudentIndex(@RequestParam String studentIndex, HttpServletRequest request) {
+        User authenticatedUser = jwtUtil.getCurrentUser(request);
+        if (authenticatedUser.getIsTeacher()) {
+            return gradeService.getAllGradesByStudentIndex(studentIndex);
+        } else {
+            return Collections.emptyList();
+        }
     }
     
 
     @PostMapping
-    public Grade createGrade(@RequestBody Grade grade) {
-        // TODO only teacher could create grades.
-        return gradeService.saveGrade(grade);
+    public ResponseEntity<Grade> createGrade(@RequestBody Grade grade, HttpServletRequest request) {
+        User authenticatedUser = jwtUtil.getCurrentUser(request);
+        if (authenticatedUser.getIsTeacher()) {
+            Grade savedGrade = gradeService.saveGrade(grade);
+            return ResponseEntity.ok(savedGrade);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     @PutMapping("/{id}")

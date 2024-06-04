@@ -2,8 +2,12 @@ package com.example.class_register_server.auth;
 
 
 import com.example.class_register_server.model.User;
+import com.example.class_register_server.service.CustomUserDetailsService;
+
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +26,9 @@ public class JwtUtil {
 
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
+
+    @Autowired
+    private CustomUserDetailsService userService;
 
     public JwtUtil(){
         System.out.println("JwtUtil bean created.");
@@ -86,5 +93,10 @@ public class JwtUtil {
         return (List<String>) claims.get("roles");
     }
 
+    public User getCurrentUser(HttpServletRequest request) {
+        String  email = this.getEmail(this.resolveClaims(request));
+        User authenticatedUser = userService.findByEmail(email);
+        return authenticatedUser;
+    }
 
 }

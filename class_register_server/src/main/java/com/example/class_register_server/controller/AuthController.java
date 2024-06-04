@@ -42,22 +42,25 @@ public class AuthController {
         try {
             Authentication authentication =
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
-            
+
+            // Getting user info about who is the User (based on email).
             String email = authentication.getName();
             String domain = getDomainFromEmail(email);
-            User user;
 
-            if (domain.equals("stud.urz.pl") && loginReq.getStudentIndex() != null) {
-                user = new User(email, "123", false, loginReq.getStudentIndex());
-            } else if (domain.equals("urz.pl") && loginReq.getStudentIndex() == null) {
-                user = new User(email,"123", true);
-            } else {
-                user = new User(email, "123");
+            // If user is null in DB then save it to the DB, depending on email it will save teacher or student user.
+            User user = userDetailsService.findByEmail(email);
+
+            if (user == null) {
+                if (domain.equals("stud.urz.pl") && loginReq.getStudentIndex() != null) {
+                    user = new User(email, "123", false, loginReq.getStudentIndex());
+                } else if (domain.equals("urz.pl") && loginReq.getStudentIndex() == null) {
+                    user = new User(email,"123", true);
+                } else {
+                    user = new User(email, "123");
+                }
+                userDetailsService.saveUser(user);
             }
             
-            userDetailsService.saveUser(user);
-            
-
             String token = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(email,token);
 
