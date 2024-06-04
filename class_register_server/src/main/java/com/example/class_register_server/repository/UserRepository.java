@@ -29,13 +29,15 @@ public class UserRepository {
     }
 
     public User findByEmail(String email) {
-        String nativeQuery = "SELECT * FROM user WHERE email = :email";
+        String nativeQuery = "SELECT * FROM user WHERE email = :email LIMIT 1";
         Query query = entityManager.createNativeQuery(nativeQuery, User.class);
+        System.out.println(email);
         query.setParameter("email", email);
-
+        
         try {
             return (User) query.getSingleResult();
         } catch (Exception e) {
+            System.out.println(e);
             return null;
         }
     }
