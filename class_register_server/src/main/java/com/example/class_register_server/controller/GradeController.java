@@ -40,6 +40,7 @@ public class GradeController {
     // If user is student, then could only read his grades. Except user is teacher, then he sees all grades in DB
     @GetMapping
     public List<Grade> getAllGrades(HttpServletRequest request) {
+        System.out.println(request.getHeader("authorization"));
         User authenticatedUser = jwtUtil.getCurrentUser(request);
 
         if (authenticatedUser.getIsTeacher()) {

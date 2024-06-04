@@ -13,26 +13,29 @@
         <Label alignment="CENTER" prefHeight="23.0" prefWidth="523.0" text="Zaloguj sie jako Nauczyciel (@urz.pl)">
          <font>
             <Font name="Courier New" size="18.0" />
-         </font></Label>
-      <TextField fx:id="email" id="email" prefHeight="26.0" prefWidth="406.0" promptText="E-mail &quot;@urz.pl&quot;">
-         <font>
-            <Font name="Courier New" size="14.0" />
          </font>
-      </TextField>
-      <PasswordField fx:id="password" id="password" promptText="Hasło">
-         <font>
-            <Font name="Courier New" size="14.0" />
-         </font>
-      </PasswordField>
-        <Button fx:id="loginButton" onAction="#switchToPrimary" prefHeight="30.0" prefWidth="165.0" text="ZALOGUJ" textAlignment="CENTER">
-         <font>
-            <Font name="Courier New" size="14.0" />
-         </font></Button>
-      <Button fx:id="menuButton" onAction="#switchToPrimary" prefHeight="26.0" prefWidth="103.0" text="MENU">
-         <font>
-            <Font name="Courier New" size="14.0" />
-         </font>
-      </Button>
+        </Label>
+        <TextField id="email" fx:id="email" prefHeight="26.0" prefWidth="406.0" promptText="E-mail &quot;@urz.pl&quot;">
+            <font>
+                <Font name="Courier New" size="14.0" />
+            </font>
+        </TextField>
+        <PasswordField id="password" fx:id="password" promptText="Hasło">
+            <font>
+                <Font name="Courier New" size="14.0" />
+            </font>
+        </PasswordField>
+        <Label fx:id="loginStatusLabel" layoutX="50" layoutY="150" text="" />
+        <Button fx:id="loginButton" onAction="#loginAsTeacher" prefHeight="30.0" prefWidth="165.0" text="ZALOGUJ" textAlignment="CENTER">
+            <font>
+                <Font name="Courier New" size="14.0" />
+            </font>
+        </Button>
+        <Button fx:id="menuButton" onAction="#switchToPrimary" prefHeight="26.0" prefWidth="103.0" text="MENU">
+            <font>
+                <Font name="Courier New" size="14.0" />
+            </font>
+        </Button>
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
