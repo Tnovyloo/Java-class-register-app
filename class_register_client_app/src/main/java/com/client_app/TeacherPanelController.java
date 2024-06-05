@@ -3,6 +3,7 @@ package com.client_app;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.client_app.component.Client;
@@ -16,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 
 
@@ -35,7 +38,7 @@ public class TeacherPanelController implements Initializable {
     private TableColumn<Grade, String> subjectColumn;
     @FXML
     private TableColumn<Grade, String> gradeColumn;
-    
+
     public TeacherPanelController() {
         this.client = new Client();
     }
@@ -51,13 +54,15 @@ public class TeacherPanelController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Call fetchGrades method when the scene is initialized
+        // Set up the cell value factories
         studentIndexColumn.setCellValueFactory(new PropertyValueFactory<>("studentIndex"));
         studentNameColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
         subjectColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
         gradeColumn.setCellValueFactory(new PropertyValueFactory<>("grade"));
-        
+
+        // Initialize the TableView with some data
         fetchGrades();
+        
     }
 
     public void fetchGrades() {
@@ -66,23 +71,31 @@ public class TeacherPanelController implements Initializable {
         System.out.println(gradesList.toString());
 
         // Creating ObservableList<Grade> data to add this variable later to our gradesTable (gradesTable.setItems() - requires ObservableArrayList)
-        ObservableList<Grade> data = FXCollections.observableArrayList();
+        ObservableList<Grade> gradesData = FXCollections.observableArrayList();
 
         for (Object obj : gradesList) {
             if (obj instanceof HashMap) {
+
+                // Casting obj to HashMap<String, Object>.
                 HashMap<String, Object> gradeMap = (HashMap<String, Object>) obj;
-                Grade grade = new Grade(
-                    (String) gradeMap.get("studentIndex"),
-                    (String) gradeMap.get("studentName"),
-                    (String) gradeMap.get("subject"),
-                    (String) gradeMap.get("grade")
-                );
-                data.add(grade);
-                System.out.println(grade.toString());
+                gradesData.add(new Grade(gradeMap.get("studentIndex").toString(), gradeMap.get("studentName").toString(), gradeMap.get("subject").toString(), gradeMap.get("grade").toString()));
+
             }
         }
 
-        System.out.println(data);
-        gradesTable.setItems(data);
+        // Set items
+        gradesTable.setItems(gradesData);
     }
+
+    // public void fetchGrades() {
+        // Create a list to hold the grades data
+        // ObservableList<Grade> gradesData = FXCollections.observableArrayList();
+
+        // // Create a few sample rows
+        // gradesData.add(new Grade("1001", "John Doe", "Math", "A"));
+        // gradesData.add(new Grade("1002", "Jane Smith", "English", "B+"));
+
+        // // Set the items of the TableView
+        // gradesTable.setItems(gradesData);
+    // }
 }

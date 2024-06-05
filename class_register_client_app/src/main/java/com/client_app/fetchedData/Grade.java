@@ -15,7 +15,7 @@ public class Grade {
     }
 
     public String getStudentIndex() {
-        return studentIndex;
+        return this.studentIndex;
     }
 
     public void setStudentIndex(String studentIndex) {
@@ -23,15 +23,16 @@ public class Grade {
     }
 
     public String getStudentName() {
-        return studentName;
+        return this.studentName;
     }
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
 
+    
     public String getSubject() {
-        return subject;
+        return this.subject;
     }
 
     public void setSubject(String subject) {
@@ -43,7 +44,7 @@ public class Grade {
     }
 
     public String getGrade() {
-        return grade;
+        return this.grade;
     }
 }
 

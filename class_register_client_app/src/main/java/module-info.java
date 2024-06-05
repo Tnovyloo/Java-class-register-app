@@ -6,4 +6,5 @@ module com.client_app {
 
     opens com.client_app to javafx.fxml;
     exports com.client_app;
+    exports com.client_app.fetchedData;
 }
