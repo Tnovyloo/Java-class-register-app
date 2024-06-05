@@ -21,9 +21,9 @@
             <Insets bottom="-15.0" />
          </VBox.margin>
       </ImageView>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="445.0" text="Witaj na platformie USOS" textOverrun="CENTER_ELLIPSIS">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="577.0" text="Witaj na platformie USOS" textOverrun="CENTER_ELLIPSIS">
          <font>
-            <Font name="Calibri" size="33.0" />
+            <Font name="Courier New Bold" size="33.0" />
          </font>
       </Label>
          
@@ -38,7 +38,7 @@
          <children>
             <Button fx:id="primaryButton" onAction="#switchToTeacher" text="Zaloguj jako prowadzący" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Courier New" size="16.0" />
                </font>
                <GridPane.margin>
                   <Insets right="15.0" />
@@ -46,7 +46,7 @@
             </Button>
             <Button mnemonicParsing="false" onAction="#switchToStudent" text="Zaloguj jako Student" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Courier New" size="16.0" />
                </font>
                <GridPane.margin>
                   <Insets left="15.0" />

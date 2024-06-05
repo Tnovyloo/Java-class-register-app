@@ -1,5 +1,6 @@
 package com.example.class_register_server.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,12 +9,15 @@ import jakarta.persistence.Id;
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // private Long Id;
 
     // TODO make this email primary.
+    @Id
+    @Column(unique = true, nullable = false)
     private String email;
+    
     private String password;
     private String firstName;
     private String lastName;
