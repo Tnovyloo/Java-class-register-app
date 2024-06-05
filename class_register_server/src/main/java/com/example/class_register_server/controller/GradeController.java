@@ -84,6 +84,8 @@ public class GradeController {
     public ResponseEntity<Grade> createGrade(@RequestBody Grade grade, HttpServletRequest request) {
         User authenticatedUser = jwtUtil.getCurrentUser(request);
         if (authenticatedUser.getIsTeacher()) {
+            // Setting to Grade Model (Not saved yet) authenticated user from Request.
+            grade.setAssessingTeacher(authenticatedUser);
             Grade savedGrade = gradeService.saveGrade(grade);
             return ResponseEntity.ok(savedGrade);
         } else {

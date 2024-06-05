@@ -1,9 +1,13 @@
 package com.example.class_register_server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Grade {
@@ -15,15 +19,21 @@ public class Grade {
     private String subject;
     private String grade;
     private String studentIndex;
+    
+    @ManyToOne
+    @JoinColumn(name = "assessingTeacher", referencedColumnName = "email")
+    @JsonIgnoreProperties({"password", "firstName", "lastName", "studentIndex", "isTeacher"})
+    private User assessingTeacher;
 
     public Grade() {
     }
 
-    public Grade(String studentName, String subject, String grade, String index) {
+    public Grade(String studentName, String subject, String grade, String index, User assessingTeacher) {
         this.studentName = studentName;
         this.subject = subject;
         this.grade = grade;
         this.studentIndex = index;
+        this.assessingTeacher = assessingTeacher;
     }
 
     // Getters and Setters
@@ -66,6 +76,14 @@ public class Grade {
 
     public String getStudentIndex() {
         return this.studentIndex;
+    }
+
+    public User getAssessingTeacher() {
+        return assessingTeacher;
+    }
+
+    public void setAssessingTeacher(User assessingTeacher) {
+        this.assessingTeacher = assessingTeacher;
     }
 
     @Override

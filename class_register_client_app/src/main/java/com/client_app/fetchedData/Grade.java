@@ -2,16 +2,28 @@ package com.client_app.fetchedData;
 
 
 public class Grade {
+
+    private String id;
     private String studentIndex;
     private String studentName;
     private String subject;
     private String grade;
+    private String assessingTeacher;
 
-    public Grade(String studentIndex, String studentName, String subject, String grade) {
+    public Grade(String id, String studentIndex, String studentName, String subject, String grade) {
+        this.id = id;
         this.studentIndex = studentIndex;
         this.studentName = studentName;
         this.subject = subject;
         this.grade = grade;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getStudentIndex() {
@@ -30,6 +42,13 @@ public class Grade {
         this.studentName = studentName;
     }
 
+    public String getAssessingTeacher() {
+        return assessingTeacher;
+    }
+
+    public void setAssessingTeacher(String assessingTeacher) {
+        this.assessingTeacher = assessingTeacher;
+    }
     
     public String getSubject() {
         return this.subject;
