@@ -38,6 +38,7 @@ public class GradeController {
 
 
     // If user is student, then could only read his grades. Except user is teacher, then he sees all grades in DB
+    // TODO, get only Teacher grades that he made.
     @GetMapping
     public List<Grade> getAllGrades(HttpServletRequest request) {
         System.out.println(request.getHeader("authorization"));
@@ -96,6 +97,7 @@ public class GradeController {
     @PutMapping("/{id}")
     public ResponseEntity<Grade> updateGrade(@PathVariable Long id, @RequestBody Grade gradeDetails, HttpServletRequest request) {
         User authenticatedUser = jwtUtil.getCurrentUser(request);
+        // TODO CHECK IF TEACHER IS OWNER OF GRADE TO MAKE PUT REQUEST HAPPEN.
         if (authenticatedUser.getIsTeacher()) {
             Optional<Grade> grade = gradeService.getGradeById(id);
             if (grade.isPresent()) {
@@ -116,6 +118,7 @@ public class GradeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrade(@PathVariable Long id, HttpServletRequest request) {
         User authenticatedUser = jwtUtil.getCurrentUser(request);
+        // TODO CHECK IF TEACHER IS OWNER OF GRADE TO MAKE PUT REQUEST HAPPEN.
         if (authenticatedUser.getIsTeacher()) {
             if (gradeService.getGradeById(id).isPresent()) {
                 gradeService.deleteGrade(id);

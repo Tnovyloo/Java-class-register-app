@@ -1,5 +1,6 @@
 package com.client_app;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import com.client_app.fetchedData.Grade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -24,6 +26,8 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
 
 
 
@@ -153,12 +157,31 @@ public class TeacherPanelController implements Initializable {
     }
 
 
+    // handleRowClick shows the GradeDetail panel, where we could change data of specific Grade.
     private void handleRowClick(MouseEvent event) {
         if (event.getClickCount() == 1) {
             Grade selectedGrade = gradesTable.getSelectionModel().getSelectedItem();
             if (selectedGrade != null) {
                 System.out.println("Selected grade: " + selectedGrade.getGrade() + ", " + selectedGrade.getAssessingTeacher() + ", " + selectedGrade.getId());
                 // Show this Grade into detail View where user could delete it or Update it.
+
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("GradeDetailView.fxml"));
+                    Parent root = loader.load();
+                    
+                    // Get the controller and pass the selected grade
+                    GradeDetailController controller = loader.getController();
+                    controller.setClient(this.client);
+                    controller.setGrade(selectedGrade);
+                    
+                    // Show the new stage
+                    Stage stage = new Stage();
+                    stage.setTitle("Szczegóły oceny");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
