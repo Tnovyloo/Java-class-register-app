@@ -134,6 +134,34 @@ public class Client {
         return resultList;
     }
 
+    public boolean postRequest(String path, HashMap<String, Object> hashMapDict) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            String jsonData = objectMapper.writeValueAsString(hashMapDict);
+
+            HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(apiIP + path))
+            .header("Authorization", "Bearer " + bearerToken)
+            .header("Content-Type", "application/json")
+            .POST(BodyPublishers.ofString(jsonData))
+            .build();
+            
+            HttpResponse<String> response = this.client.send(request, BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                return true;
+            } else {
+                System.out.println(response.statusCode());
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     @Override
     public String toString() {
         return this.bearerToken;

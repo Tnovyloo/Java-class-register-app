@@ -44,7 +44,7 @@
                               <Font name="Courier New" size="12.0" />
                            </font>
                         </Label>
-                        <TextField prefHeight="25.0" prefWidth="174.0" promptText="Imie i nazwisko Studenta">
+                        <TextField fx:id="fullNameInput" prefHeight="25.0" prefWidth="174.0" promptText="Imie i nazwisko Studenta">
                            <font>
                               <Font name="Courier New" size="12.0" />
                            </font>
@@ -57,7 +57,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField prefHeight="25.0" prefWidth="174.0" promptText="Indeks studenta">
+                        <TextField fx:id="indexInput" prefHeight="25.0" prefWidth="174.0" promptText="Indeks studenta">
                            <font>
                               <Font name="Courier New" size="12.0" />
                            </font>
@@ -70,7 +70,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField prefHeight="25.0" prefWidth="174.0" promptText="Przedmiot">
+                        <TextField fx:id="subjectInput" prefHeight="25.0" prefWidth="174.0" promptText="Przedmiot">
                            <font>
                               <Font name="Courier New" size="12.0" />
                            </font>
@@ -83,14 +83,14 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField prefHeight="25.0" prefWidth="174.0" promptText="Ocena">
+                        <TextField fx:id="gradeInput" prefHeight="25.0" prefWidth="174.0" promptText="Ocena">
                            <font>
                               <Font name="Courier New" size="12.0" />
                            </font>
                         </TextField>
                      </children>
                   </VBox>
-                  <Button layoutX="13.0" layoutY="257.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" text="Wystaw Ocene">
+                  <Button onAction="#postGrade" layoutX="13.0" layoutY="257.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" text="Wystaw Ocene">
                      <font>
                         <Font name="Courier New" size="12.0" />
                      </font>
