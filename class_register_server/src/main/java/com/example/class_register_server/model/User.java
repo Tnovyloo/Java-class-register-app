@@ -13,7 +13,6 @@ public class User {
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
     // private Long Id;
 
-    // TODO make this email primary.
     @Id
     @Column(unique = true, nullable = false)
     private String email;

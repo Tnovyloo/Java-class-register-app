@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 
 
@@ -45,6 +46,8 @@ public class TeacherPanelController implements Initializable {
     private TableColumn<Grade, String> subjectColumn;
     @FXML
     private TableColumn<Grade, String> gradeColumn;
+    @FXML
+    private TableColumn<Grade, String> descriptionColumn;
 
     // Post Grade text inputs
     @FXML
@@ -55,6 +58,8 @@ public class TeacherPanelController implements Initializable {
     private TextField subjectInput;
     @FXML
     private TextField gradeInput;
+    @FXML
+    private TextField descriptionInput;
 
     public TeacherPanelController() {
         this.client = new Client();
@@ -73,8 +78,20 @@ public class TeacherPanelController implements Initializable {
         studentNameColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
         subjectColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
         gradeColumn.setCellValueFactory(new PropertyValueFactory<>("grade"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
+        // Add mouse Event on TableView (Method Reference)
+        gradesTable.setOnMouseClicked(this::handleRowClick);
+
+        // Same thing but diffrent
+        // gradesTable.setOnMouseClicked(event -> handleRowClick(event));
+
+        // Fetch grades from Spring backend
         fetchGrades();        
+    }
+
+    private String getStringValue(Object obj) {
+        return obj != null ? obj.toString() : "";
     }
 
     public void fetchGrades() {
@@ -89,7 +106,15 @@ public class TeacherPanelController implements Initializable {
             if (obj instanceof HashMap) {
                 // Casting obj to HashMap<String, Object>.
                 HashMap<String, Object> gradeMap = (HashMap<String, Object>) obj;
-                gradesData.add(new Grade(gradeMap.get("id").toString(), gradeMap.get("studentIndex").toString(), gradeMap.get("studentName").toString(), gradeMap.get("subject").toString(), gradeMap.get("grade").toString()));
+                // gradesData.add(new Grade(gradeMap.get("id").toString(), gradeMap.get("studentIndex").toString(), gradeMap.get("studentName").toString(), gradeMap.get("subject").toString(), gradeMap.get("grade").toString(), gradeMap.get("description").toString()));
+                gradesData.add(new Grade(
+                getStringValue(gradeMap.get("id")),
+                getStringValue(gradeMap.get("studentIndex")),
+                getStringValue(gradeMap.get("studentName")),
+                getStringValue(gradeMap.get("subject")),
+                getStringValue(gradeMap.get("grade")),
+                getStringValue(gradeMap.get("description"))
+            ));
 
             }
         }
@@ -104,6 +129,7 @@ public class TeacherPanelController implements Initializable {
         postData.put("subject", subjectInput.getText());
         postData.put("grade", gradeInput.getText());
         postData.put("studentIndex", indexInput.getText());
+        postData.put("description", descriptionInput.getText());
 
         boolean isSended = client.postRequest("api/grades", postData);
         if (isSended) {
@@ -125,4 +151,17 @@ public class TeacherPanelController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+    private void handleRowClick(MouseEvent event) {
+        if (event.getClickCount() == 1) {
+            Grade selectedGrade = gradesTable.getSelectionModel().getSelectedItem();
+            if (selectedGrade != null) {
+                System.out.println("Selected grade: " + selectedGrade.getGrade() + ", " + selectedGrade.getAssessingTeacher() + ", " + selectedGrade.getId());
+                // Show this Grade into detail View where user could delete it or Update it.
+            }
+        }
+    }
+
+    
 }

@@ -91,15 +91,19 @@ public class Client {
                 .build();
 
             HttpResponse<String> response = this.client.send(request, BodyHandlers.ofString());
-            Map<String, Object> responseBody = objectMapper.readValue(response.body(), HashMap.class);
-            
-            String token = (String) responseBody.get("token");
-            System.out.println(token);
-            if (token == null) {
-                return false;
+            if (response.statusCode() == 200) {
+                Map<String, Object> responseBody = objectMapper.readValue(response.body(), HashMap.class);
+                
+                String token = (String) responseBody.get("token");
+                System.out.println(token);
+                if (token == null) {
+                    return false;
+                } else {
+                    setBearerToken(token);
+                    return true;
+                }
             } else {
-                setBearerToken(token);
-                return true;
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();

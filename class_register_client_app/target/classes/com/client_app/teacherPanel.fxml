@@ -28,6 +28,7 @@
                       <TableColumn fx:id="studentNameColumn" prefWidth="134.0" text="Imie i naziwsko" />
                       <TableColumn fx:id="subjectColumn" prefWidth="106.0" text="Przedmiot" />
                       <TableColumn fx:id="gradeColumn" minWidth="0.0" prefWidth="107.0" text="Ocena" />
+                      <TableColumn fx:id="descriptionColumn" minWidth="0.0" prefWidth="107.0" text="Opis" />
                   </columns>
               </TableView>
             <Pane prefHeight="200.0" prefWidth="200.0">
@@ -88,9 +89,22 @@
                               <Font name="Courier New" size="12.0" />
                            </font>
                         </TextField>
+                        <Label prefHeight="15.0" prefWidth="132.0" text="Opis">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="descriptionInput" prefHeight="25.0" prefWidth="174.0" promptText="Opis">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </TextField>
                      </children>
                   </VBox>
-                  <Button onAction="#postGrade" layoutX="13.0" layoutY="257.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" text="Wystaw Ocene">
+                  <Button layoutX="13.0" layoutY="299.0" mnemonicParsing="false" onAction="#postGrade" prefHeight="25.0" prefWidth="174.0" text="Wystaw Ocene">
                      <font>
                         <Font name="Courier New" size="12.0" />
                      </font>

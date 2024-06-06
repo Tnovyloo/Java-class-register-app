@@ -9,13 +9,15 @@ public class Grade {
     private String subject;
     private String grade;
     private String assessingTeacher;
+    private String description;
 
-    public Grade(String id, String studentIndex, String studentName, String subject, String grade) {
+    public Grade(String id, String studentIndex, String studentName, String subject, String grade, String description) {
         this.id = id;
         this.studentIndex = studentIndex;
         this.studentName = studentName;
         this.subject = subject;
         this.grade = grade;
+        this.description = description;
     }
 
     public void setId(String id) {
@@ -24,6 +26,14 @@ public class Grade {
 
     public String getId() {
         return id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getStudentIndex() {
