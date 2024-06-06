@@ -91,15 +91,19 @@ public class Client {
                 .build();
 
             HttpResponse<String> response = this.client.send(request, BodyHandlers.ofString());
-            Map<String, Object> responseBody = objectMapper.readValue(response.body(), HashMap.class);
-            
-            String token = (String) responseBody.get("token");
-            System.out.println(token);
-            if (token == null) {
-                return false;
+            if (response.statusCode() == 200) {
+                Map<String, Object> responseBody = objectMapper.readValue(response.body(), HashMap.class);
+                
+                String token = (String) responseBody.get("token");
+                System.out.println(token);
+                if (token == null) {
+                    return false;
+                } else {
+                    setBearerToken(token);
+                    return true;
+                }
             } else {
-                setBearerToken(token);
-                return true;
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,6 +136,34 @@ public class Client {
         }
         
         return resultList;
+    }
+
+    public boolean postRequest(String path, HashMap<String, Object> hashMapDict) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            String jsonData = objectMapper.writeValueAsString(hashMapDict);
+
+            HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(apiIP + path))
+            .header("Authorization", "Bearer " + bearerToken)
+            .header("Content-Type", "application/json")
+            .POST(BodyPublishers.ofString(jsonData))
+            .build();
+            
+            HttpResponse<String> response = this.client.send(request, BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                return true;
+            } else {
+                System.out.println(response.statusCode());
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

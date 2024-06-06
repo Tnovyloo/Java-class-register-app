@@ -19,6 +19,7 @@ public class Grade {
     private String subject;
     private String grade;
     private String studentIndex;
+    private String description;
     
     @ManyToOne
     @JoinColumn(name = "assessingTeacher", referencedColumnName = "email")
@@ -28,12 +29,13 @@ public class Grade {
     public Grade() {
     }
 
-    public Grade(String studentName, String subject, String grade, String index, User assessingTeacher) {
+    public Grade(String studentName, String subject, String grade, String index, User assessingTeacher, String description) {
         this.studentName = studentName;
         this.subject = subject;
         this.grade = grade;
         this.studentIndex = index;
         this.assessingTeacher = assessingTeacher;
+        this.description = description;
     }
 
     // Getters and Setters
@@ -60,6 +62,14 @@ public class Grade {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getGrade() {

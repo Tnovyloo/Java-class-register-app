@@ -3,6 +3,7 @@ package com.client_app;
 import java.io.IOException;
 
 import com.client_app.component.Client;
+import com.client_app.component.EmailValidator;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,10 +48,18 @@ public class TeacherController {
 
     @FXML
     private void loginAsTeacher(ActionEvent event) throws IOException, InterruptedException {        
-        String emailValue = this.email.getText();       
-        String passwordValue = this.password.getText();
+        String emailValue = this.email.getText();
+        
+        boolean isLogged = false;
 
-        boolean isLogged = this.client.authorizeClient(emailValue, passwordValue);
+        EmailValidator emailValidator = new EmailValidator(emailValue);   
+        if (emailValidator.checkEmailDomain("urz.pl")) {            
+            String passwordValue = this.password.getText();
+            isLogged = this.client.authorizeClient(emailValue, passwordValue);
+        } else {
+            isLogged = false;
+        }
+        
         if (isLogged) {
             // Send info to user and change FXML.
             this.loginStatusLabel.setText("Logowanie powiodło się");

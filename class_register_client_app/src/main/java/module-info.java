@@ -3,6 +3,7 @@ module com.client_app {
     requires javafx.fxml;
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
+    requires javafx.graphics;
 
     opens com.client_app to javafx.fxml;
     exports com.client_app;
