@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import com.client_app.component.AlertPopUp;
 import com.client_app.component.Client;
 import com.client_app.fetchedData.Grade;
 
@@ -128,6 +129,7 @@ public class TeacherPanelController implements Initializable {
 
     public void postGrade() {
         HashMap<String, Object> postData = new HashMap<String, Object>();
+        AlertPopUp alert = new AlertPopUp();
 
         postData.put("studentName", fullNameInput.getText());
         postData.put("subject", subjectInput.getText());
@@ -137,24 +139,18 @@ public class TeacherPanelController implements Initializable {
 
         boolean isSended = client.postRequest("api/grades", postData);
         if (isSended) {
-            showAlert(AlertType.CONFIRMATION, "Wysłano ocene!", "Udało się dać ocene studentowi o indeksie " + postData.get("studentIndex"));            
+            alert.showAlert(AlertType.CONFIRMATION, "Wysłano ocene!", "Udało się dać ocene studentowi o indeksie " + postData.get("studentIndex"));            
             fullNameInput.setText(null);
             indexInput.setText(null);
             gradeInput.setText(null);
             subjectInput.setText(null);
             fetchGrades();
         } else {
-            showAlert(AlertType.ERROR, "Nie udało się wysłać oceny", "Błąd przy wysyłaniu oceny na serwer. Przejrzyj czy uzupełniłeś wszystkie pola tekstowe.");
+            alert.showAlert(AlertType.ERROR, "Nie udało się wysłać oceny", "Błąd przy wysyłaniu oceny na serwer. Przejrzyj czy uzupełniłeś wszystkie pola tekstowe.");
         }
         
     }
 
-    private void showAlert(AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
 
     // handleRowClick shows the GradeDetail panel, where we could change data of specific Grade.

@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 
@@ -98,15 +97,29 @@ public class GradeController {
     public ResponseEntity<Grade> updateGrade(@PathVariable Long id, @RequestBody Grade gradeDetails, HttpServletRequest request) {
         User authenticatedUser = jwtUtil.getCurrentUser(request);
         // TODO CHECK IF TEACHER IS OWNER OF GRADE TO MAKE PUT REQUEST HAPPEN.
+        System.out.println(authenticatedUser.getEmail() + "XDX XDX DX ED");
+
         if (authenticatedUser.getIsTeacher()) {
             Optional<Grade> grade = gradeService.getGradeById(id);
             if (grade.isPresent()) {
                 Grade updatedGrade = grade.get();
-                updatedGrade.setStudentName(gradeDetails.getStudentName());
-                updatedGrade.setSubject(gradeDetails.getSubject());
-                updatedGrade.setGrade(gradeDetails.getGrade());
-                gradeService.saveGrade(updatedGrade);
-                return ResponseEntity.ok(updatedGrade);
+
+                // Check if grade is updated by the same Assessing teacher of grade.
+                User assessingTeacher = updatedGrade.getAssessingTeacher();
+                if (assessingTeacher.getEmail() == authenticatedUser.getEmail()) {
+                    System.out.println(assessingTeacher.getEmail() + " == " + authenticatedUser.getEmail());
+                    updatedGrade.setStudentName(gradeDetails.getStudentName());
+                    updatedGrade.setSubject(gradeDetails.getSubject());
+                    updatedGrade.setGrade(gradeDetails.getGrade());
+                    updatedGrade.setStudentIndex(gradeDetails.getStudentIndex());
+                    updatedGrade.setDescription(gradeDetails.getDescription());
+                    gradeService.saveGrade(updatedGrade);
+                    return ResponseEntity.ok(updatedGrade);
+                } else {
+                    System.out.println(assessingTeacher.getEmail() + " != " + authenticatedUser.getEmail());
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                }
+
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -120,9 +133,21 @@ public class GradeController {
         User authenticatedUser = jwtUtil.getCurrentUser(request);
         // TODO CHECK IF TEACHER IS OWNER OF GRADE TO MAKE PUT REQUEST HAPPEN.
         if (authenticatedUser.getIsTeacher()) {
-            if (gradeService.getGradeById(id).isPresent()) {
-                gradeService.deleteGrade(id);
-                return ResponseEntity.noContent().build();
+            Optional<Grade> queryGrade = gradeService.getGradeById(id);
+
+            if (queryGrade.isPresent()) {
+                Grade deletedGrade = queryGrade.get();
+                // Check if Deleting Grade teacher user is actually the assessor.
+                User assessingTeacher = deletedGrade.getAssessingTeacher();
+                if (assessingTeacher.getEmail() == authenticatedUser.getEmail()) {
+                    System.out.println("Deleting Grade: " + deletedGrade.getId() + " -> Owner of Grade: " + deletedGrade.getAssessingTeacher().getEmail() + " == " + authenticatedUser.getEmail());
+                    gradeService.deleteGrade(id);
+                    return ResponseEntity.noContent().build();
+                } else {
+                    System.out.println("Deleting Grade error: " + deletedGrade.getId() + " -> Owner of Grade: " + deletedGrade.getAssessingTeacher().getEmail() + " != " + authenticatedUser.getEmail());
+                    return ResponseEntity.badRequest().build();
+                }
+
             } else {
                 return ResponseEntity.notFound().build();
             }

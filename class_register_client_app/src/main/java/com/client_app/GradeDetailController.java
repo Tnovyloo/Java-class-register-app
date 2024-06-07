@@ -1,9 +1,14 @@
 package com.client_app;
 
+import java.util.HashMap;
+
+import com.client_app.component.AlertPopUp;
 import com.client_app.component.Client;
 import com.client_app.fetchedData.Grade;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -51,18 +56,47 @@ public class GradeDetailController {
         this.gradeInput.setText(grade.getGrade());
         this.subjectInput.setText(grade.getSubject());
 
+        System.out.println(grade.getId());
     }
 
     @FXML
     private void handleUpdate() {
         // Handle the update logic here
-        System.out.println("PUT REQUEST HERE");
+        HashMap<String, Object> requestHashMap = new HashMap<String, Object>();
+
+        AlertPopUp alert = new AlertPopUp();
+
+        requestHashMap.put("studentName", fullNameInput.getText().toString());
+        requestHashMap.put("subject", subjectInput.getText().toString());
+        requestHashMap.put("grade", gradeInput.getText().toString());
+        requestHashMap.put("studentIndex", indexInput.getText().toString());
+        requestHashMap.put("description", descriptionInput.getText().toString());
+        requestHashMap.put("id", selectedGrade.getId());
+
+        System.out.println(requestHashMap.toString());
+
+        boolean isSuccess = client.putRequest("api/grades/" + selectedGrade.getId(), requestHashMap);
+        if (isSuccess) {
+            alert.showAlert(AlertType.CONFIRMATION, "Zaaktualizowano", "Zaaktualizowano ocene");
+        } else {
+            alert.showAlert(AlertType.ERROR, "Błąd przy aktualizacji", "Sprawdz literówki, bądź zaloguj się ponownie, być może zmieniasz ocenę innego nauczyciela.");
+        }
+        
     }
 
     @FXML
     private void handleDelete() {
-        // Handle the delete logic here
-        System.out.println("DELETE REQUEST HERE");
+        AlertPopUp alert = new AlertPopUp();
+
+        System.out.println("Deleting Grade.");
+
+        boolean isSuccess = client.deleteRequest("api/grades/" + selectedGrade.getId());
+        if (isSuccess) {
+            alert.showAlert(AlertType.CONFIRMATION, "Usunięto", "Poprawnie usunięto ocenę");
+        } else {
+            alert.showAlert(AlertType.ERROR, "Błąd przy usuwaniu", "Prawdopodobnie nie jesteś nauczycielem wystawiającym tą ocenę.");
+        }
+         
     }
 }
 

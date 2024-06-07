@@ -115,27 +115,10 @@
       </HBox>
       <HBox prefHeight="6.0" prefWidth="911.0">
          <children>
-      
-              <Button fx:id="menuButton" onAction="#fetchGrades" prefHeight="26.0" prefWidth="241.0" text="Sciagnij oceny z serwera">
-                  <font>
-                      <Font name="Courier New" size="14.0" />
-                  </font>
-              </Button>
-            <Button fx:id="menuButton1" onAction="#fetchGrades" prefHeight="26.0" prefWidth="198.0" text="Usun Oceny">
+            <Button fx:id="menuButton" onAction="#fetchGrades" prefHeight="26.0" prefWidth="241.0" text="Sciagnij oceny z serwera">
                <font>
-                  <Font name="Courier New" size="14.0" />
+                     <Font name="Courier New" size="14.0" />
                </font>
-               <HBox.margin>
-                  <Insets left="15.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="menuButton11" onAction="#fetchGrades" prefHeight="26.0" prefWidth="241.0" text="Usun Oceny">
-               <font>
-                  <Font name="Courier New" size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="15.0" />
-               </HBox.margin>
             </Button>
          </children>
       </HBox>

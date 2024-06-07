@@ -2,6 +2,7 @@ package com.client_app;
 
 import java.io.IOException;
 
+import com.client_app.component.AlertPopUp;
 import com.client_app.component.Client;
 import com.client_app.component.EmailValidator;
 
@@ -49,6 +50,7 @@ public class TeacherController {
     @FXML
     private void loginAsTeacher(ActionEvent event) throws IOException, InterruptedException {        
         String emailValue = this.email.getText();
+        AlertPopUp alert = new AlertPopUp();
         
         boolean isLogged = false;
 
@@ -63,7 +65,8 @@ public class TeacherController {
         if (isLogged) {
             // Send info to user and change FXML.
             this.loginStatusLabel.setText("Logowanie powiodło się");
-            showAlert(AlertType.CONFIRMATION ,"Logowanie powiodło się", "Logowanie powiodło się, zostałeś zalogowany jako: " + emailValue);
+
+            alert.showAlert(AlertType.CONFIRMATION ,"Logowanie powiodło się", "Logowanie powiodło się, zostałeś zalogowany jako: " + emailValue);
             
             // All this magic below is only for fetching grades from API before scene builds. We are manually assign Controller to this FXML (It is not connected in this teacherPanel.fxml file)
             // We have to load teacherPanel.fxml and pass the client to the Controller constructor
@@ -81,16 +84,10 @@ public class TeacherController {
 
         } else {
             // Send info to user
-            showAlert(AlertType.ERROR, "Logowanie nie powiodło się", "Sprawdź email i hasło");
+            alert.showAlert(AlertType.ERROR, "Logowanie nie powiodło się", "Sprawdź email i hasło");
             this.password.setText("");
         }
 
     }
 
-    private void showAlert(AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }
