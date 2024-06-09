@@ -93,11 +93,10 @@ public class GradeController {
         }
     }
 
+    // Only owner of grade could edit it.
     @PutMapping("/{id}")
     public ResponseEntity<Grade> updateGrade(@PathVariable Long id, @RequestBody Grade gradeDetails, HttpServletRequest request) {
         User authenticatedUser = jwtUtil.getCurrentUser(request);
-        // TODO CHECK IF TEACHER IS OWNER OF GRADE TO MAKE PUT REQUEST HAPPEN.
-        System.out.println(authenticatedUser.getEmail() + "XDX XDX DX ED");
 
         if (authenticatedUser.getIsTeacher()) {
             Optional<Grade> grade = gradeService.getGradeById(id);
@@ -128,10 +127,11 @@ public class GradeController {
         }
     }
 
+    // Only owner of grade could delete the grade.
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGrade(@PathVariable Long id, HttpServletRequest request) {
         User authenticatedUser = jwtUtil.getCurrentUser(request);
-        // TODO CHECK IF TEACHER IS OWNER OF GRADE TO MAKE PUT REQUEST HAPPEN.
+
         if (authenticatedUser.getIsTeacher()) {
             Optional<Grade> queryGrade = gradeService.getGradeById(id);
 
