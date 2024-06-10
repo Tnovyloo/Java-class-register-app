@@ -94,7 +94,7 @@ public class GradeDetailController {
         if (isSuccess) {
             alert.showAlert(AlertType.CONFIRMATION, "Usunięto", "Poprawnie usunięto ocenę");
         } else {
-            alert.showAlert(AlertType.ERROR, "Błąd przy usuwaniu", "Prawdopodobnie nie jesteś nauczycielem wystawiającym tą ocenę.");
+            alert.showAlert(AlertType.ERROR, "Błąd przy usuwaniu", "Nie jesteś nauczycielem wystawiającym tą ocenę .");
         }
          
     }
