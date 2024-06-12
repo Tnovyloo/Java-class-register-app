@@ -23,6 +23,10 @@ public class GradeService {
         return gradeRepository.findByStudentIndex(studentIndex);
     }
 
+    public List<Grade> getAllByEmail(String teacherEmail) {
+        return gradeRepository.findByAssessingTeacher_Email(teacherEmail);
+    }
+
     public Optional<Grade> getGradeById(Long id) {
         return gradeRepository.findById(id);
     }

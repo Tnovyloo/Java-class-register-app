@@ -9,10 +9,10 @@ public class EmailValidator {
 
     public boolean checkEmailDomain(String domain) {
         if (domain.contains(getDomainFromEmail(email))) {
-            System.out.println(getDomainFromEmail(email) + "==" + email);
+            System.out.println(getDomainFromEmail(email) + " == " + domain);
             return true;
         } else {
-            System.out.println(getDomainFromEmail(email) + "!=" + email);
+            System.out.println(getDomainFromEmail(email) + " != " + domain);
         }
         return false;
     } 

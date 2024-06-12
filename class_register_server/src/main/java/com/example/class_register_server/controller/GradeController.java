@@ -44,7 +44,8 @@ public class GradeController {
         User authenticatedUser = jwtUtil.getCurrentUser(request);
 
         if (authenticatedUser.getIsTeacher()) {
-            return gradeService.getAllGrades();
+            // return gradeService.getAllGrades();
+            return gradeService.getAllByEmail(authenticatedUser.getEmail());
         } else {
             return gradeService.getAllGradesByStudentIndex(authenticatedUser.getStudentIndex());
         }
@@ -52,21 +53,21 @@ public class GradeController {
     }
 
     // Get grade by Id if user is teacher
-    @GetMapping("/{id}")
-    public ResponseEntity<Grade> getGradeById(@PathVariable Long id, HttpServletRequest request) {
-        User authenticatedUser = jwtUtil.getCurrentUser(request);
+    // @GetMapping("/{id}")
+    // public ResponseEntity<Grade> getGradeById(@PathVariable Long id, HttpServletRequest request) {
+    //     User authenticatedUser = jwtUtil.getCurrentUser(request);
 
-        if (authenticatedUser.getIsTeacher()) {
-            Optional<Grade> grade = gradeService.getGradeById(id);
-            if (grade.isPresent()) {
-                return ResponseEntity.ok(grade.get());
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    //     if (authenticatedUser.getIsTeacher()) {
+    //         Optional<Grade> grade = gradeService.getGradeById(id);
+    //         if (grade.isPresent()) {
+    //             return ResponseEntity.ok(grade.get());
+    //         } else {
+    //             return ResponseEntity.notFound().build();
+    //         }
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 
     // Get all grades that contains studentIndex, only for Teacher.
     @GetMapping("/student/search")
