@@ -60,6 +60,15 @@ public class AuthController {
                 }
                 userDetailsService.saveUser(user);
             }
+
+            // Check if student logs in with proper Index (Setted on first login)
+            if (domain.equals("stud.urz.pl")) {
+                if (!(user.getStudentIndex().equals(loginReq.getStudentIndex()))) {
+                    System.out.println("User logged with bad StudentIndex");
+                    ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Invalid student index");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+                } 
+            }
             
             String token = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(email,token);
