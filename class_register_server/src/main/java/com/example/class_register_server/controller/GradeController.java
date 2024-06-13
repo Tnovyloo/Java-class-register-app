@@ -106,7 +106,7 @@ public class GradeController {
 
                 // Check if grade is updated by the same Assessing teacher of grade.
                 User assessingTeacher = updatedGrade.getAssessingTeacher();
-                if (assessingTeacher.getEmail() == authenticatedUser.getEmail()) {
+                if (assessingTeacher.getEmail().equals(authenticatedUser.getEmail())) {
                     System.out.println(assessingTeacher.getEmail() + " == " + authenticatedUser.getEmail());
                     updatedGrade.setStudentName(gradeDetails.getStudentName());
                     updatedGrade.setSubject(gradeDetails.getSubject());
@@ -140,7 +140,7 @@ public class GradeController {
                 Grade deletedGrade = queryGrade.get();
                 // Check if Deleting Grade teacher user is actually the assessor.
                 User assessingTeacher = deletedGrade.getAssessingTeacher();
-                if (assessingTeacher.getEmail() == authenticatedUser.getEmail()) {
+                if (assessingTeacher.getEmail().equals(authenticatedUser.getEmail())) {
                     System.out.println("Deleting Grade: " + deletedGrade.getId() + " -> Owner of Grade: " + deletedGrade.getAssessingTeacher().getEmail() + " == " + authenticatedUser.getEmail());
                     gradeService.deleteGrade(id);
                     return ResponseEntity.noContent().build();
