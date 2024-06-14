@@ -52,7 +52,15 @@ public class AuthController {
 
             if (user == null) {
                 if (domain.equals("stud.urz.pl") && loginReq.getStudentIndex() != null) {
-                    user = new User(email, "123", false, loginReq.getStudentIndex());
+                    // Check if any user dont double same index.
+                    User searchedUserByIndex = userDetailsService.findByStudentIndex(loginReq.getStudentIndex());
+                    if (searchedUserByIndex == null) {
+                        user = new User(email, "123", false, loginReq.getStudentIndex());
+                    } else {
+                        System.out.println(loginReq.getStudentIndex() + " is already occupied");
+                        ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Student index is already occupied");
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+                    }
                 } else if (domain.equals("urz.pl") && loginReq.getStudentIndex() == null) {
                     user = new User(email,"123", true);
                 } else {
