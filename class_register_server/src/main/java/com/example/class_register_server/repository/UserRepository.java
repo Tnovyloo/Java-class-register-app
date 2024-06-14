@@ -41,6 +41,21 @@ public class UserRepository {
             return null;
         }
     }
+
+    public User findByStudentIndex(String studentIndex) {
+        String nativeQuery = "SELECT * FROM user WHERE student_index = :studentIndex LIMIT 1";
+        Query query = entityManager.createNativeQuery(nativeQuery, User.class);
+
+        System.out.println(studentIndex);
+        query.setParameter("studentIndex", studentIndex);
+
+        try {
+            return (User) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
 }
 
 

@@ -31,9 +31,6 @@ public class Client {
         this.bearerToken = bearerToken;
     }
 
-    public void postRequest(String path, String context) {
-        System.out.println("Make api call here");
-    }
 
     // Function for authorize Teacher user
     public boolean authorizeClient(String email, String password) {

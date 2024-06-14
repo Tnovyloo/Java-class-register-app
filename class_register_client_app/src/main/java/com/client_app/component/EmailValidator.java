@@ -8,7 +8,7 @@ public class EmailValidator {
     }
 
     public boolean checkEmailDomain(String domain) {
-        if (domain.contains(getDomainFromEmail(email))) {
+        if (domain.equals(getDomainFromEmail(email))) {
             System.out.println(getDomainFromEmail(email) + " == " + domain);
             return true;
         } else {

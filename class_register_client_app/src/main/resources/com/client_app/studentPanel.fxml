@@ -23,9 +23,9 @@
       
               <TableView fx:id="gradesTable" prefHeight="385.0" prefWidth="711.0">
                   <columns>
-                      <TableColumn fx:id="idColumn" text="Indeks" />
+                      <TableColumn fx:id="idColumn" text="ID oceny" />
                       <TableColumn fx:id="studentIndexColumn" text="Indeks" />
-                      <TableColumn fx:id="studentNameColumn" prefWidth="134.0" text="Imie i naziwsko" />
+                      <TableColumn fx:id="studentNameColumn" prefWidth="134.0" text="Imię i nazwisko" />
                       <TableColumn fx:id="subjectColumn" prefWidth="106.0" text="Przedmiot" />
                       <TableColumn fx:id="gradeColumn" minWidth="0.0" prefWidth="107.0" text="Ocena" />
                       <TableColumn fx:id="descriptionColumn" minWidth="0.0" prefWidth="107.0" text="Opis" />
@@ -34,7 +34,7 @@
 
          </children>
       </HBox>
-      <HBox prefHeight="6.0" prefWidth="911.0">
+      <HBox prefHeight="6.0" prefWidth="711.0">
          <children>
             <Button fx:id="menuButton" onAction="#fetchGrades" prefHeight="26.0" prefWidth="241.0" text="Sciagnij oceny z serwera">
                <font>

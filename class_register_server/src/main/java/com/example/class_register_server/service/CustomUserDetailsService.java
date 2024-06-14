@@ -47,6 +47,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public void saveUser(User user) {
         userRepository.saveUser(user);
-        System.out.println("XD");
+        System.out.println("Saving user");
+    }
+
+    public User findByStudentIndex(String studentIndex) {
+        return userRepository.findByStudentIndex(studentIndex);
     }
 }
